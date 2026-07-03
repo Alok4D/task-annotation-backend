@@ -5,8 +5,7 @@ import useImage from 'use-image';
 import { useGetImagesQuery, useGetAnnotationsQuery, useSaveAnnotationMutation } from '@/features/annotations/annotationApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import { Button } from '@/components/ui/Button';
-import { Save, RefreshCw } from 'lucide-react';
+import { Toolbar, DrawingTool } from './Toolbar';
 
 export const Canvas = () => {
   const selectedImageId = useSelector((state: RootState) => state.annotations.selectedImageId);
@@ -21,31 +20,49 @@ export const Canvas = () => {
   
   const [points, setPoints] = useState<{ x: number; y: number }[]>([]);
   const [isFinished, setIsFinished] = useState(false);
+  
+  const [activeTool, setActiveTool] = useState<DrawingTool>('DRAW');
+  const [activeColor, setActiveColor] = useState('#FBBC05');
+  const [activeSize, setActiveSize] = useState(4);
+  
+  const [scale, setScale] = useState(1);
+  const [stagePos, setStagePos] = useState({ x: 0, y: 0 });
 
   const currentAnnotations = annotations.filter(a => a.image === selectedImageId);
 
   useEffect(() => {
     setPoints([]);
     setIsFinished(false);
+    setScale(1);
+    setStagePos({ x: 0, y: 0 });
   }, [selectedImageId]);
 
   const handleStageClick = (e: any) => {
-    if (isFinished) return;
+    if (activeTool !== 'DRAW' || isFinished) return;
+    
     const stage = e.target.getStage();
-    const pos = stage.getPointerPosition();
-    if (!pos) return;
+    const pointerPos = stage.getPointerPosition();
+    if (!pointerPos) return;
+
+    const x = (pointerPos.x - stagePos.x) / scale;
+    const y = (pointerPos.y - stagePos.y) / scale;
 
     if (points.length >= 3) {
       const startPoint = points[0];
-      const dx = pos.x - startPoint.x;
-      const dy = pos.y - startPoint.y;
+      const dx = x - startPoint.x;
+      const dy = y - startPoint.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      if (distance < 10) {
+      if (distance < 10 / scale) {
         setIsFinished(true);
         return;
       }
     }
-    setPoints([...points, { x: pos.x, y: pos.y }]);
+    setPoints([...points, { x, y }]);
+  };
+
+  const handleUndo = () => {
+    if (isFinished) setIsFinished(false);
+    else setPoints(points.slice(0, -1));
   };
 
   const handleSave = async () => {
@@ -63,9 +80,21 @@ export const Canvas = () => {
     }
   };
 
-  const handleReset = () => {
-    setPoints([]);
-    setIsFinished(false);
+  const handleWheel = (e: any) => {
+    e.evt.preventDefault();
+    const scaleBy = 1.1;
+    const stage = e.target.getStage();
+    const oldScale = stage.scaleX();
+    const mousePointTo = {
+      x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
+      y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
+    };
+    const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+    setScale(newScale);
+    setStagePos({
+      x: -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale,
+      y: -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale,
+    });
   };
 
   if (!selectedImage) {
@@ -81,32 +110,39 @@ export const Canvas = () => {
     flatPoints.push(points[0].x, points[0].y);
   }
 
+  const baseScale = image && image.width > 800 ? 800 / image.width : 1;
+
   return (
-    <div className="flex-1 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col relative">
-      <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-        <div>
-          <h3 className="font-bold text-gray-800">Annotation Canvas</h3>
-          <p className="text-xs text-gray-500 mt-1">Click around the object to draw a polygon. Click near the start point to close it.</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="ghost" size="sm" onClick={handleReset} disabled={points.length === 0} className="gap-2">
-            <RefreshCw className="w-4 h-4" /> Reset
-          </Button>
-          <Button size="sm" onClick={handleSave} disabled={!isFinished || points.length < 3} isLoading={isSaving} className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md">
-            <Save className="w-4 h-4" /> Save Polygon
-          </Button>
-        </div>
-      </div>
+    <div className="flex-1 bg-[#282828] rounded-2xl border border-[#111] overflow-hidden flex flex-col relative">
+      <Toolbar 
+        activeTool={activeTool} 
+        onToolChange={setActiveTool}
+        activeColor={activeColor}
+        onColorChange={setActiveColor}
+        activeSize={activeSize}
+        onSizeChange={setActiveSize}
+        onUndo={handleUndo}
+        canUndo={points.length > 0}
+        onDelete={() => { setPoints([]); setIsFinished(false); }}
+        canDelete={points.length > 0}
+        onSave={handleSave}
+        canSave={isFinished && points.length > 2 && !isSaving}
+      />
       
-      <div className="flex-1 overflow-auto bg-gray-100/50 flex justify-center items-center p-4">
+      <div className="flex-1 overflow-hidden flex justify-center items-center p-4 relative">
         {image ? (
-          <div className="shadow-2xl rounded-md overflow-hidden bg-white cursor-crosshair">
+          <div className={`shadow-2xl overflow-hidden bg-white ${activeTool === 'DRAW' ? 'cursor-crosshair' : activeTool === 'PAN' ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'}`}>
             <Stage
-              width={image.width > 800 ? 800 : image.width}
-              height={image.width > 800 ? (image.height * 800) / image.width : image.height}
-              scaleX={image.width > 800 ? 800 / image.width : 1}
-              scaleY={image.width > 800 ? 800 / image.width : 1}
+              width={image.width * baseScale}
+              height={image.height * baseScale}
+              scaleX={baseScale * scale}
+              scaleY={baseScale * scale}
+              x={stagePos.x}
+              y={stagePos.y}
+              draggable={activeTool === 'PAN'}
+              onDragEnd={(e) => setStagePos({ x: e.target.x(), y: e.target.y() })}
               onClick={handleStageClick}
+              onWheel={handleWheel}
             >
               <Layer>
                 <KonvaImage image={image} />
@@ -119,10 +155,10 @@ export const Canvas = () => {
                     <React.Fragment key={ann.id}>
                       <Line
                         points={savedFlatPoints}
-                        stroke="#3b82f6"
-                        strokeWidth={2}
+                        stroke="#4285F4" // Default blue for saved annotations
+                        strokeWidth={4 / scale}
                         closed
-                        fill="rgba(59, 130, 246, 0.3)"
+                        fill="rgba(66, 133, 244, 0.2)"
                       />
                     </React.Fragment>
                   );
@@ -132,21 +168,21 @@ export const Canvas = () => {
                   <>
                     <Line
                       points={flatPoints}
-                      stroke="#ef4444"
-                      strokeWidth={3}
-                      dash={isFinished ? [] : [5, 5]}
+                      stroke={activeColor}
+                      strokeWidth={activeSize / scale}
+                      dash={isFinished ? [] : [10 / scale, 10 / scale]}
                       closed={isFinished}
-                      fill={isFinished ? "rgba(239, 68, 68, 0.3)" : undefined}
+                      fill={isFinished ? `${activeColor}40` : undefined} // 40 is 25% opacity hex
                     />
                     {points.map((p, i) => (
                       <Circle
                         key={i}
                         x={p.x}
                         y={p.y}
-                        radius={i === 0 && !isFinished ? 6 : 4}
-                        fill={i === 0 && !isFinished ? "#f59e0b" : "#ef4444"}
-                        stroke="#fff"
-                        strokeWidth={2}
+                        radius={i === 0 && !isFinished ? (activeSize * 1.5 / scale) : (activeSize / scale)}
+                        fill={i === 0 && !isFinished ? activeColor : "#FFFFFF"}
+                        stroke={activeColor}
+                        strokeWidth={2 / scale}
                       />
                     ))}
                   </>
