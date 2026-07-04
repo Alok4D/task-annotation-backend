@@ -64,6 +64,9 @@ function useOnClickOutside(ref: React.RefObject<HTMLElement>, handler: () => voi
   }, [ref, handler]);
 }
 
+import { setSelectedImageId } from '@/features/annotations/annotationSlice';
+import { useDispatch } from 'react-redux';
+
 export const Toolbar = ({
   activeTool,
   onToolChange,
@@ -86,6 +89,7 @@ export const Toolbar = ({
   const activeToolObj = TOOLS.find(t => t.id === activeTool) || TOOLS[0];
   const ActiveToolIcon = activeToolObj.icon;
   const activeSizeObj = SIZES.find(s => s.val === activeSize) || SIZES[3];
+  const dispatch = useDispatch();
 
   const BtnClasses = "flex items-center justify-center h-[34px] px-3 bg-[#2F3136] hover:bg-[#3E4147] text-[#B3B4B5] hover:text-white transition-colors disabled:opacity-30 disabled:hover:bg-[#2F3136]";
   const ActiveBtnClasses = "flex items-center justify-center h-[34px] px-3 bg-[#0D73ED] text-white transition-colors";
@@ -95,7 +99,11 @@ export const Toolbar = ({
       
       {/* Left: Logo Area */}
       <div className="flex items-center gap-4 w-[250px]">
-        <div className="text-white font-bold flex items-center gap-1.5 cursor-pointer">
+        <div 
+          onClick={() => dispatch(setSelectedImageId(null))}
+          className="text-white font-bold flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity"
+          title="Back to Dashboard"
+        >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 12L12 4L16 8L8 16L4 12Z" fill="#F44336"/>
             <path d="M12 4L20 12L12 20L4 12" stroke="#FFC107" strokeWidth="2" strokeLinecap="round"/>
