@@ -56,9 +56,9 @@ export const TaskModal = ({ isOpen, onClose, task }: TaskModalProps) => {
   const onSubmit = async (data: FormData) => {
     try {
       if (task) {
-        await updateTask({ id: task.id, ...data, selected_date: selectedDate }).unwrap();
+        await updateTask({ id: task.id, ...data, selected_date: data.due_date }).unwrap();
       } else {
-        await createTask({ ...data, selected_date: selectedDate }).unwrap();
+        await createTask({ ...data, selected_date: data.due_date }).unwrap();
       }
       onClose();
     } catch (error) {

@@ -12,6 +12,10 @@ export const taskApi = apiWithTags.injectEndpoints({
           ? [...result.map(({ id }) => ({ type: 'Task' as const, id })), { type: 'Task', id: 'LIST' }]
           : [{ type: 'Task', id: 'LIST' }],
     }),
+    getAllTasks: builder.query<Task[], void>({
+      query: () => `tasks/`,
+      providesTags: [{ type: 'Task', id: 'LIST' }],
+    }),
     createTask: builder.mutation<Task, Partial<Task>>({
       query: (body) => ({
         url: 'tasks/',
@@ -40,6 +44,7 @@ export const taskApi = apiWithTags.injectEndpoints({
 
 export const {
   useGetTasksQuery,
+  useGetAllTasksQuery,
   useCreateTaskMutation,
   useUpdateTaskMutation,
   useDeleteTaskMutation,
