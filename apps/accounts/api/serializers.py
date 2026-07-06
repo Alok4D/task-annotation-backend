@@ -7,7 +7,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'email', 'created_at', 'is_active', 'is_staff')
+        fields = ('id', 'email', 'name', 'created_at', 'is_active', 'is_staff')
         read_only_fields = ('id', 'created_at', 'is_active', 'is_staff')
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -16,7 +16,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'password', 'password_confirm', 'created_at')
+        fields = ('id', 'email', 'name', 'password', 'password_confirm', 'created_at')
         read_only_fields = ('id', 'created_at')
 
     def validate(self, attrs):
@@ -26,8 +26,22 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop('password_confirm')
+        name = validated_data.pop('name', '')
         user = User.objects.create_user(
             email=validated_data['email'],
-            password=validated_data['password']
+            password=validated_data['password'],
+            name=name
         )
         return user
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['user'] = {
+            'id': self.user.id,
+            'email': self.user.email,
+            'name': self.user.name or "",
+        }
+        return data
