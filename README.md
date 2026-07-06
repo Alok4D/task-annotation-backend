@@ -65,11 +65,12 @@ taskfusion-backend
 
 ## Image Annotation
 
-- Image Upload
-- Polygon Annotation
-- Delete Annotation
-- Multiple Images
-- Annotation Persistence
+- Image Upload API (Support for various image formats)
+- Advanced Polygon Annotation (Custom colors, sizes, and points)
+- Sidebar/Saved Polygons retrieval endpoint
+- Delete specific Annotations & Images
+- Multi-image management and seamless switching
+- Persistent Database Storage for Coordinates
 
 ---
 
