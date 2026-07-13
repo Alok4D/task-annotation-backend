@@ -134,10 +134,19 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default='dlvywmmyv'),
     'API_KEY': config('CLOUDINARY_API_KEY', default='131729124253139'),
     'API_SECRET': config('CLOUDINARY_API_SECRET', default='XxCRc2o1Rmyy4NDNG7IQkvsooiE')
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
