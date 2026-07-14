@@ -1,57 +1,126 @@
-# TaskFusion - Backend (The Core Engine)
+# TaskFusion — Backend API
 
-Welcome to the backend of TaskFusion! This engine powers our 2-in-1 application (Kanban board + Image Annotation) using Django and Django REST Framework. 
+This is the backend for the **TaskFusion – Kanban Board and Image Annotation App**. It provides a robust RESTful API built with Python, Django, Django REST Framework, and PostgreSQL.
 
-## 🐉 The Villains Faced (And How They Were Defeated!)
-1. **The CORS Demon:** Integrating a Next.js frontend running on a different port with a Django backend often summons the CORS Demon. By configuring `django-cors-headers` perfectly and trusting my AI companion for the correct middleware order, the demon was vanquished.
-2. **The Multi-Part Monster (Image Uploads):** Handling image file uploads alongside JSON payload data can get messy. I defeated this monster by configuring DRF's `MultiPartParser` and properly defining the `ImageField` in the models, ensuring files are saved and served securely.
-3. **The Relational Maze (Database Models):** Designing models that linked tasks to specific dates, and annotations to specific images while keeping user data isolated required careful planning. The Django ORM proved to be a loyal ally, allowing me to build robust relationships seamlessly using SQLite.
+## 🔗 Live Links
+- **Frontend**: https://taskcanvas-app.vercel.app
+- **Backend**: https://task-annotation-backend-3vyn.onrender.com
+- **Frontend Repo**: https://github.com/Alok4D/task-annotation-frontend
+- **Backend Repo**: https://github.com/Alok4D/task-annotation-backend
 
-## 🚀 Tech Stack
-- **Framework:** Django 5.x & Django REST Framework (DRF)
-- **Language:** Python 3.12+
-- **Database:** SQLite (Using Django ORM)
-- **Authentication:** JWT (JSON Web Tokens)
-- **Image Handling:** Pillow
+## 🔑 Demo Login Credentials
 
-## ⚙️ Requirements
-- **Node.js:** v18.x or v20.x (For Frontend)
-- **Python:** 3.12+ 
+| 👑 Admin Account |
+| :--- |
+| **Email:** `admin@gmail.com`<br>**Pass:** `admin123456` |
 
-## 🏃‍♂️ How to Run Locally (The Training Arc)
-1. **Clone the repository:**
-   ```bash
-   git clone <backend-repo-url>
-   cd task-annotation-backend
-   ```
-2. **Create and activate a virtual environment:**
-   ```bash
-   python -m venv venv
-   # On Windows:
-   venv\Scripts\activate
-   # On Mac/Linux:
-   source venv/bin/activate
-   ```
-3. **Install dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   # (Or pip install django djangorestframework djangorestframework-simplejwt django-cors-headers pillow django-filter python-decouple)
-   ```
-4. **Apply database migrations:**
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
-5. **Start the development server:**
-   ```bash
-   python manage.py runserver
-   ```
+## ✨ Features Implemented
 
-## 🔗 Links & Credentials
-- **Frontend Repo:** [Insert Github Link]
-- **Backend Repo:** [Insert Github Link]
-- **Live Hosted App:** [Insert Hosted Link]
-- **Demo User Email:** demo@taskfusion.com
-- **Demo User Password:** DemoPass123!
+### 1. Authentication & Security
+- **JWT-Based Auth**: Secure login mechanism generating short-lived Access Tokens and long-lived Refresh Tokens using `djangorestframework-simplejwt`.
+- **Password Hashing**: Uses Django's built-in password hashers to securely store user passwords.
 
-"Believe in the code that believes in you!" 🕶️🔥
+### 2. Task Management (Kanban)
+- **Full CRUD API**: Create, Read, Update, and Delete operations for tasks.
+- **Filtering**: Powerful backend querying allowing filtering tasks by date.
+- **Status Tracking**: Organize tasks into different statuses (TODO, IN_PROGRESS, DONE).
+
+### 3. Image Annotation
+- **Image Upload Integration**: Built-in support for uploading images using Cloudinary and Django Cloudinary Storage.
+- **Polygon Annotations**: Save and manage complex polygon annotations on uploaded images.
+- **Full CRUD API**: Retrieve and delete annotations tied to specific images.
+
+### 4. Architecture & Best Practices
+- **Django REST Framework**: Leveraging DRF for rapid and scalable API development.
+- **PostgreSQL Database**: Relational database for robust data integrity and complex relationships.
+- **CORS Configuration**: Correctly configured `django-cors-headers` to allow seamless frontend integration.
+
+## 🛠️ Tech Stack
+- **Python 3.12+**
+- **Django 5.x & Django REST Framework (DRF)**
+- **PostgreSQL (psycopg2-binary)**
+- **JSON Web Tokens (JWT) / Simple JWT**
+- **Cloudinary** (Cloud Image Storage)
+- **Pillow** (Image Handling)
+
+---
+
+## 🚀 Project Setup & Installation Guide
+
+### Prerequisites
+- Python (v3.12 or higher)
+- PostgreSQL (or SQLite for local development)
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Alok4D/task-annotation-backend.git
+cd task-annotation-backend
+```
+
+### 2. Create and activate a virtual environment
+```bash
+python -m venv venv
+# On Windows:
+venv\Scripts\activate
+# On Mac/Linux:
+source venv/bin/activate
+```
+
+### 3. Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Configure Environment Variables
+Create a `.env` file in the root directory and add your credentials:
+```env
+SECRET_KEY=your_django_secret_key
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Database configuration (Optional: defaults to SQLite if not provided)
+DATABASE_URL=postgres://user:password@localhost:5432/taskfusion
+
+# Cloudinary Configuration
+CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+```
+
+### 5. Apply database migrations
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+### 6. Run the application
+```bash
+python manage.py runserver
+```
+The server will start on `http://127.0.0.1:8000`.
+
+---
+
+## 📚 API Documentation
+
+A complete **Postman Collection** is included in the root directory: `postman/taskfusion.postman_collection.json`. You can import this directly into Postman to test all endpoints. 
+
+### Key Endpoints Overview:
+
+**Auth Endpoints:**
+- `POST /api/accounts/register/` (Register User)
+- `POST /api/accounts/login/` (Login)
+- `GET /api/accounts/me/` (Get Profile)
+- `POST /api/accounts/token/refresh/` (Refresh Session)
+
+**Tasks (Kanban) Endpoints:**
+- `GET /api/tasks/` (Accepts `?selected_date=`)
+- `POST /api/tasks/` (Requires auth)
+- `PATCH /api/tasks/:id/` (Requires auth)
+- `DELETE /api/tasks/:id/` (Requires auth)
+
+**Annotations Endpoints:**
+- `GET /api/annotations/images/` (List Images)
+- `POST /api/annotations/images/` (Upload Image)
+- `DELETE /api/annotations/images/:id/`
+- `GET /api/annotations/annotations/` (Accepts `?image=`)
+- `POST /api/annotations/annotations/` (Save Annotation Polygon)
+- `DELETE /api/annotations/annotations/:id/`
