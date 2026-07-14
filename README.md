@@ -106,12 +106,18 @@ The server will start on `http://127.0.0.1:8000`.
 
 ## 📚 API Documentation
 
-### 1. Interactive Swagger UI (OpenAPI)
-The backend features an auto-generated, interactive Swagger UI for testing API endpoints directly from your browser.
-- **Live Documentation**: [https://task-annotation-backend-3vyn.onrender.com/docs/](https://task-annotation-backend-3vyn.onrender.com/docs/)
-- **Local Testing**: Run the server and visit `http://127.0.0.1:8000/docs/`
+### 🛠️ Base API URLs (For Postman & Frontend)
+Use these URLs when connecting your frontend application or testing directly via tools like Postman. 
+All data endpoints are prefixed with `/api/` (e.g., `/api/accounts/register/`).
+- **Local Base URL**: `http://127.0.0.1:8000`
+- **Live Base URL**: `https://task-annotation-backend-3vyn.onrender.com`
 
-### 2. Postman Collection
+### 📖 Interactive Swagger UI (For Browser Testing)
+If you want to view all available endpoints and test them directly from your web browser without using any third-party tools, use the auto-generated Swagger UI at the `/docs/` route.
+- **Local Documentation**: [http://127.0.0.1:8000/docs/](http://127.0.0.1:8000/docs/)
+- **Live Documentation**: [https://task-annotation-backend-3vyn.onrender.com/docs/](https://task-annotation-backend-3vyn.onrender.com/docs/)
+
+### 📦 Postman Collection
 A complete **Postman Collection** is also included in the root directory at `postman/taskfusion.postman_collection.json`. You can import this file directly into Postman to explore and test all available endpoints offline.
 
 ### Key Endpoints Overview:
