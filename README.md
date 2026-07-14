@@ -117,7 +117,7 @@ If you want to view all available endpoints and test them directly from your web
 - **Live Documentation**: [https://task-annotation-backend-3vyn.onrender.com/docs/](https://task-annotation-backend-3vyn.onrender.com/docs/)
 
 ### 📦 Postman Collection
-A complete **Postman Collection** is also included in the root directory at `postman/taskfusion.postman_collection.json`. You can import this file directly into Postman to explore and test all available endpoints offline.
+A complete **Postman Collection** is also included in the root directory at `postman/taskcanvas.postman_collection.json`. You can import this file directly into Postman to explore and test all available endpoints offline.
 
 ### Key Endpoints Overview:
 

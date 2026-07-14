@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "TaskFusion API",
-    "description": "API collection for TaskFusion - Kanban Board and Image Annotation App",
+    "name": "TaskCanvas API",
+    "description": "API collection for TaskCanvas - Kanban Board and Image Annotation App",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -20,7 +20,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"demo@taskfusion.com\",\n    \"password\": \"DemoPass123!\",\n    \"password_confirm\": \"DemoPass123!\"\n}"
+              "raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"admin123456\",\n    \"password_confirm\": \"admin123456\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/accounts/register/",
@@ -62,7 +62,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"demo@taskfusion.com\",\n    \"password\": \"DemoPass123!\"\n}"
+              "raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"admin123456\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/accounts/login/",
