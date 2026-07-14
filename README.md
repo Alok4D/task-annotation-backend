@@ -1,6 +1,6 @@
-# TaskFusion — Backend API
+# TaskCanvas API (Backend)
 
-This is the backend for the **TaskFusion – Kanban Board and Image Annotation App**. It provides a robust RESTful API built with Python, Django, Django REST Framework, and PostgreSQL.
+This is the core backend engine for the **TaskCanvas App** — providing a robust RESTful API built with Python, Django, Django REST Framework, and PostgreSQL to power the Kanban board and Image Annotation tool.
 
 ## 🔗 Live Links
 - **Frontend**: https://taskcanvas-app.vercel.app
@@ -10,7 +10,7 @@ This is the backend for the **TaskFusion – Kanban Board and Image Annotation A
 
 ## 🔑 Demo Login Credentials
 
-| 👑 Admin Account |
+| 👑 Demo User Credentials |
 | :--- |
 | **Email:** `admin@gmail.com`<br>**Pass:** `admin123456` |
 
@@ -36,12 +36,17 @@ This is the backend for the **TaskFusion – Kanban Board and Image Annotation A
 - **CORS Configuration**: Correctly configured `django-cors-headers` to allow seamless frontend integration.
 
 ## 🛠️ Tech Stack
-- **Python 3.12+**
-- **Django 5.x & Django REST Framework (DRF)**
-- **PostgreSQL (psycopg2-binary)**
-- **JSON Web Tokens (JWT) / Simple JWT**
-- **Cloudinary** (Cloud Image Storage)
+- **Python 3.12+** (Language)
+- **Django 5.x & Django REST Framework (DRF)** (Web Framework & API Engine)
+- **PostgreSQL / psycopg2-binary** (Database & Adapter)
+- **djangorestframework-simplejwt / PyJWT** (Authentication)
+- **Cloudinary / django-cloudinary-storage** (Cloud Image Storage)
 - **Pillow** (Image Handling)
+- **django-cors-headers** (CORS Configuration)
+- **django-filter** (Advanced API Filtering)
+- **python-decouple** (Environment Variable Management)
+- **gunicorn & whitenoise** (Production Server & Static File Handling)
+- **dj-database-url** (Database URL Parsing)
 
 ---
 
