@@ -108,8 +108,8 @@ The server will start on `http://127.0.0.1:8000`.
 
 ### 1. Interactive Swagger UI (OpenAPI)
 The backend features an auto-generated, interactive Swagger UI for testing API endpoints directly from your browser.
-- Run the server locally and visit: **`http://127.0.0.1:8000/docs/`**
-- Or view the raw OpenAPI schema at: `http://127.0.0.1:8000/api/schema/`
+- **Live Documentation**: [https://task-annotation-backend-3vyn.onrender.com/docs/](https://task-annotation-backend-3vyn.onrender.com/docs/)
+- **Local Testing**: Run the server and visit `http://127.0.0.1:8000/docs/`
 
 ### 2. Postman Collection
 A complete **Postman Collection** is also included in the root directory at `postman/taskfusion.postman_collection.json`. You can import this file directly into Postman to explore and test all available endpoints offline.
