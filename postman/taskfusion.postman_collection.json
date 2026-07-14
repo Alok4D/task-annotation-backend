@@ -20,7 +20,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"user1@example.com\",\n    \"password\": \"SecurePass123!\",\n    \"password_confirm\": \"SecurePass123!\"\n}"
+              "raw": "{\n    \"email\": \"demo@taskfusion.com\",\n    \"password\": \"DemoPass123!\",\n    \"password_confirm\": \"DemoPass123!\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/accounts/register/",
@@ -62,7 +62,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"user1@example.com\",\n    \"password\": \"SecurePass123!\"\n}"
+              "raw": "{\n    \"email\": \"demo@taskfusion.com\",\n    \"password\": \"DemoPass123!\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/accounts/login/",
@@ -92,7 +92,6 @@
               ]
             },
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{base_url}}/api/accounts/me/",
               "host": [
@@ -102,6 +101,35 @@
                 "api",
                 "accounts",
                 "me",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "4. Token Refresh",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refresh\": \"<refresh_token_here>\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/accounts/token/refresh/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "accounts",
+                "token",
+                "refresh",
                 ""
               ]
             }
@@ -126,7 +154,6 @@
               ]
             },
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{base_url}}/api/tasks/?selected_date=2026-07-03",
               "host": [
@@ -169,7 +196,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"title\": \"Build Postman Collection\",\n    \"priority\": \"HIGH\",\n    \"status\": \"TODO\",\n    \"selected_date\": \"2026-07-03\",\n    \"due_date\": \"2026-07-10\"\n}"
+              "raw": "{\n    \"title\": \"Build Postman Collection\",\n    \"priority\": \"HIGH\",\n    \"status\": \"TODO\",\n    \"selected_date\": \"2026-07-03\",\n    \"due_date\": \"2026-07-10\",\n    \"tags\": [\"postman\", \"api\"]\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/tasks/",
@@ -221,6 +248,34 @@
               ]
             }
           }
+        },
+        {
+          "name": "Delete Task",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/tasks/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tasks",
+                "1",
+                ""
+              ]
+            }
+          }
         }
       ]
     },
@@ -241,7 +296,6 @@
               ]
             },
             "method": "POST",
-            "header": [],
             "body": {
               "mode": "formdata",
               "formdata": [
@@ -280,7 +334,6 @@
               ]
             },
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{base_url}}/api/annotations/images/",
               "host": [
@@ -290,6 +343,35 @@
                 "api",
                 "annotations",
                 "images",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Image",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/annotations/images/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "annotations",
+                "images",
+                "1",
                 ""
               ]
             }
@@ -347,7 +429,6 @@
               ]
             },
             "method": "GET",
-            "header": [],
             "url": {
               "raw": "{{base_url}}/api/annotations/annotations/?image=1",
               "host": [
@@ -365,6 +446,35 @@
                   "value": "1",
                   "description": "Image ID to filter by"
                 }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Annotation",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/annotations/annotations/1/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "annotations",
+                "annotations",
+                "1",
+                ""
               ]
             }
           }

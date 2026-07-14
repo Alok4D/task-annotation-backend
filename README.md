@@ -1,262 +1,57 @@
-# TaskFusion Backend
-
-Backend API for the **TaskFusion** application, built with **Django**, **Django REST Framework**, and **PostgreSQL**.
-
-TaskFusion is a productivity application that combines a **Kanban Task Management System** with an **Image Annotation Tool**.
-
----
-
-# Tech Stack
-
-- Python 3.12+
-- Django 5.x
-- Django REST Framework (DRF)
-- PostgreSQL
-- Django ORM
-- JWT Authentication
-- Pillow
-- django-filter
-- django-cors-headers
-- python-decouple
-
----
-
-# Project Structure
-
-```
-taskfusion-backend
-│
-├── apps/
-│   ├── users/
-│   ├── tasks/
-│   └── annotations/
-│
-├── config/
-├── core/
-├── media/
-├── static/
-├── requirements/
-└── manage.py
-```
-
----
-
-# Features
-
-## Authentication
-
-- User Login
-- JWT Authentication
-
----
-
-## Task Management
-
-- Create Task
-- Update Task
-- Delete Task
-- Date Based Filtering
-- Task Status Management
-- Priority
-- Tags
-- Drag & Drop Support
-
----
-
-## Image Annotation
-
-- Image Upload API (Support for various image formats)
-- Advanced Polygon Annotation (Custom colors, sizes, and points)
-- Sidebar/Saved Polygons retrieval endpoint
-- Delete specific Annotations & Images
-- Multi-image management and seamless switching
-- Persistent Database Storage for Coordinates
-
----
-
-# Backend Architecture
-
-The backend follows a feature-based architecture.
-
-Each feature is separated into its own Django application.
-
-```
-users/
-
-tasks/
-
-annotations/
-```
-
-Business logic is separated from API views by using service layers.
-
----
-
-# Database
-
-PostgreSQL
-
-Models
-
-- User
-- Task
-- Image
-- Annotation
-
----
-
-# API Modules
-
-Authentication
-
-```
-POST /api/auth/login
-```
-
-Tasks
-
-```
-GET    /api/tasks
-POST   /api/tasks
-PUT    /api/tasks/:id
-DELETE /api/tasks/:id
-```
-
-Images
-
-```
-POST /api/images
-GET  /api/images
-```
-
-Annotations
-
-```
-POST /api/annotations
-DELETE /api/annotations/:id
-```
-
----
-
-# Development Setup
-
-## Clone Repository
-
-```bash
-git clone <repository-url>
-```
-
----
-
-## Create Virtual Environment
-
-```bash
-python -m venv venv
-```
-
-Windows
-
-```bash
-venv\Scripts\activate
-```
-
-Linux / Mac
-
-```bash
-source venv/bin/activate
-```
-
----
-
-## Install Dependencies
-
-```bash
-pip install -r requirements/development.txt
-```
-
----
-
-## Configure Environment
-
-Create a `.env` file.
-
-Example
-
-```env
-SECRET_KEY=
-
-DEBUG=True
-
-DB_NAME=
-
-DB_USER=
-
-DB_PASSWORD=
-
-DB_HOST=
-
-DB_PORT=
-```
-
----
-
-## Apply Migrations
-
-```bash
-python manage.py makemigrations
-
-python manage.py migrate
-```
-
----
-
-## Run Server
-
-```bash
-python manage.py runserver
-```
-
----
-
-# Development Workflow
-
-1. Design Database Models
-2. Create Migrations
-3. Build REST APIs
-4. Test APIs with Postman
-5. Integrate Frontend
-6. Write Tests
-7. Deploy
-
----
-
-# Deployment
-
-Backend Hosting
-
-- Render
-
-Database
-
-- PostgreSQL
-
----
-
-# Future Improvements
-
-- User Registration
-- Refresh Token Rotation
-- Role Based Access Control
-- Activity Logs
-- Soft Delete
-- API Rate Limiting
-- Unit Tests
-- Docker Support
-
----
-
-# Author
-
-Alok Roy
-
-Full Stack Developer
+# TaskFusion - Backend (The Core Engine)
+
+Welcome to the backend of TaskFusion! This engine powers our 2-in-1 application (Kanban board + Image Annotation) using Django and Django REST Framework. 
+
+## 🐉 The Villains Faced (And How They Were Defeated!)
+1. **The CORS Demon:** Integrating a Next.js frontend running on a different port with a Django backend often summons the CORS Demon. By configuring `django-cors-headers` perfectly and trusting my AI companion for the correct middleware order, the demon was vanquished.
+2. **The Multi-Part Monster (Image Uploads):** Handling image file uploads alongside JSON payload data can get messy. I defeated this monster by configuring DRF's `MultiPartParser` and properly defining the `ImageField` in the models, ensuring files are saved and served securely.
+3. **The Relational Maze (Database Models):** Designing models that linked tasks to specific dates, and annotations to specific images while keeping user data isolated required careful planning. The Django ORM proved to be a loyal ally, allowing me to build robust relationships seamlessly using SQLite.
+
+## 🚀 Tech Stack
+- **Framework:** Django 5.x & Django REST Framework (DRF)
+- **Language:** Python 3.12+
+- **Database:** SQLite (Using Django ORM)
+- **Authentication:** JWT (JSON Web Tokens)
+- **Image Handling:** Pillow
+
+## ⚙️ Requirements
+- **Node.js:** v18.x or v20.x (For Frontend)
+- **Python:** 3.12+ 
+
+## 🏃‍♂️ How to Run Locally (The Training Arc)
+1. **Clone the repository:**
+   ```bash
+   git clone <backend-repo-url>
+   cd task-annotation-backend
+   ```
+2. **Create and activate a virtual environment:**
+   ```bash
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On Mac/Linux:
+   source venv/bin/activate
+   ```
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   # (Or pip install django djangorestframework djangorestframework-simplejwt django-cors-headers pillow django-filter python-decouple)
+   ```
+4. **Apply database migrations:**
+   ```bash
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+5. **Start the development server:**
+   ```bash
+   python manage.py runserver
+   ```
+
+## 🔗 Links & Credentials
+- **Frontend Repo:** [Insert Github Link]
+- **Backend Repo:** [Insert Github Link]
+- **Live Hosted App:** [Insert Hosted Link]
+- **Demo User Email:** demo@taskfusion.com
+- **Demo User Password:** DemoPass123!
+
+"Believe in the code that believes in you!" 🕶️🔥
