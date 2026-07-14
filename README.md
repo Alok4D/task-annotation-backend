@@ -106,7 +106,13 @@ The server will start on `http://127.0.0.1:8000`.
 
 ## 📚 API Documentation
 
-A complete **Postman Collection** is included in the root directory: `postman/taskfusion.postman_collection.json`. You can import this directly into Postman to test all endpoints. 
+### 1. Interactive Swagger UI (OpenAPI)
+The backend features an auto-generated, interactive Swagger UI for testing API endpoints directly from your browser.
+- Run the server locally and visit: **`http://127.0.0.1:8000/docs/`**
+- Or view the raw OpenAPI schema at: `http://127.0.0.1:8000/api/schema/`
+
+### 2. Postman Collection
+A complete **Postman Collection** is also included in the root directory at `postman/taskfusion.postman_collection.json`. You can import this file directly into Postman to explore and test all available endpoints offline.
 
 ### Key Endpoints Overview:
 
