@@ -4,9 +4,8 @@ This is the core backend engine for the **TaskCanvas App** — providing a robus
 
 ## 🔗 Live Links
 - **Frontend**: https://taskcanvas-app.vercel.app
-- **Backend API Documentation**: https://task-annotation-backend-3vyn.onrender.com/docs/
 - **Frontend Repo**: https://github.com/Alok4D/task-annotation-frontend
-- **Backend Repo**: https://github.com/Alok4D/task-annotation-backend
+- **Backend API Documentation**: https://task-annotation-backend-3vyn.onrender.com/docs
 
 ## 🔑 Demo Login Credentials
 
